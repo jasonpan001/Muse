@@ -1,38 +1,38 @@
 ext.versions = [
         // App
         minSdk            : 21,
-        targetSdk         : 28,
+        targetSdk         : 35,
         versionCode       : 10,
         versionName       : "1.9",
 
         // Plugins
-        gradlePlugin      : "4.2.0-alpha13",
-        googleServices    : "4.2.0",
-        crashlyticsPlugin : "2.3.0",
-        spotlessPlugin    : "3.17.0",
+        gradlePlugin      : '8.9.1',
+        googleServices    : "4.4.0",
+        crashlyticsPlugin : "2.9.9",
+        spotlessPlugin    : "6.25.0",
 
         // Kotlin
-        kotlin            : "1.4.10",
-        coroutines        : "1.1.1",
+        kotlin            : "1.9.25",
+        coroutines        : "1.7.3",
 
         // AndroidX
-        constraintLayout  : "1.1.3",
-        appCompat         : "1.0.2",
-        coordinatorlayout : "1.0.0",
-        recyclerView      : "1.0.0",
+        constraintLayout  : "2.1.4",
+        appCompat         : "1.7.0",
+        coordinatorlayout : "1.2.0",
+        recyclerView      : "1.3.2",
         cardView          : "1.0.0",
-        materialComponents: "1.0.0",
-        ktx               : "1.0.1",
+        materialComponents: "1.12.0",
+        ktx               : "1.13.1",
         legacySupport     : "1.0.0",
-        preference        : "1.1.0-alpha01",
+        preference        : "1.2.1",
 
         // Compose
-        compose           : "1.0.0-alpha04",
+        compose           : "1.6.8",
 
         // Arch Components
-        lifecycle         : "2.1.0-alpha02",
-        room              : "2.2.5",
-        databinding       : "3.2.0-alpha10",
+        lifecycle         : "2.7.0",
+        room              : "2.6.1",
+        databinding       : "8.7.0",
 
         // RxJava
         rxJava            : "2.2.6",
@@ -40,20 +40,20 @@ ext.versions = [
         rxRetrofit        : "2.5.0",
 
         // Other Google
-        mediaCompat       : "28.0.0",
-        firebase          : "16.0.6",
-        cast              : "16.1.2",
+        mediaCompat       : "1.7.0",
+        firebase          : "32.7.4",
+        cast              : "21.4.0",
 
         // Third Party
         rxkPrefs          : "1.2.5",
-        materialDialogs   : "2.1.0",
-        crashlytics       : "17.2.2",
-        glide             : "4.8.0",
-        gson              : "2.8.4",
-        retrofit          : "2.4.0",
-        retrofitGson      : "2.3.0",
+        materialDialogs   : "3.3.0",
+        crashlytics       : "18.6.2",
+        glide             : "4.16.0",
+        gson              : "2.10.1",
+        retrofit          : "2.9.0",
+        retrofitGson      : "2.9.0",
         nanoHttpd         : "2.3.1",
-        koin              : "1.0.2",
+        koin              : "3.5.3",
 
         // Debug
         timber            : "4.7.1",
