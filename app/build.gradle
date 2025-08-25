@@ -137,5 +137,6 @@ dependencies {
 
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
+apply plugin: 'kotlin-parcelize'
 apply from: '../spotless.gradle'
 apply from: '../mock.gradle'

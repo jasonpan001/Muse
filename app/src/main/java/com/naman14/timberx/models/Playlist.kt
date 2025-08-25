@@ -20,7 +20,7 @@ import android.support.v4.media.MediaDescriptionCompat
 import com.naman14.timberx.playback.TimberMusicService.Companion.TYPE_PLAYLIST
 import com.naman14.timberx.extensions.value
 import com.naman14.timberx.extensions.valueOrEmpty
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 import android.provider.MediaStore.Audio.Playlists._ID
 import android.provider.MediaStore.Audio.Playlists.NAME
 
