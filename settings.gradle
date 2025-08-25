@@ -1,1 +1,22 @@
-include ':app'
+// ① 必须最先出现
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+
+// ② 紧随其后（可选但强烈建议）
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+        maven { url 'https://jitpack.io' }
+    }
+}
+
+// ③ 再写这些普通语句
+rootProject.name = "Muse"
+include(":app")

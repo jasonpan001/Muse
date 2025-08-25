@@ -1,3 +1,12 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'org.jetbrains.kotlin.plugin.compose'
+    id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
+    id 'com.diffplug.spotless'
+}
+
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 // apply plugin: 'kotlin-android-extensions' // Deprecated, using view binding instead
@@ -45,7 +54,6 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion versions.compose
     }
 }
 

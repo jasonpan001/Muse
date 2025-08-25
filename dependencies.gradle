@@ -12,7 +12,7 @@ ext.versions = [
         spotlessPlugin    : "6.25.0",
 
         // Kotlin
-        kotlin            : "1.9.25",
+        kotlin            : "2.0.20",
         coroutines        : "1.7.3",
 
         // AndroidX
