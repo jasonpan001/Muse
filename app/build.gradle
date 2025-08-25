@@ -70,7 +70,8 @@ dependencies {
 
     // Arch Components
     implementation "androidx.legacy:legacy-support-v4:${versions.legacySupport}"
-    implementation "androidx.lifecycle:lifecycle-extensions:${versions.lifecycle}"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:${versions.lifecycle}"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:${versions.lifecycle}"
     kapt "androidx.lifecycle:lifecycle-compiler:${versions.lifecycle}"
 
     implementation "androidx.room:room-runtime:${versions.room}"
@@ -87,7 +88,6 @@ dependencies {
     implementation "androidx.media:media:${versions.mediaCompat}"
 
     implementation "com.google.android.gms:play-services-cast-framework:${versions.cast}"
-    implementation "com.google.firebase:firebase-core:${versions.firebase}"
 
     // Third Party
     implementation "com.afollestad:rxkprefs:${versions.rxkPrefs}"
@@ -106,13 +106,13 @@ dependencies {
 
     implementation "org.nanohttpd:nanohttpd:${versions.nanoHttpd}"
 
-    implementation "org.koin:koin-android:${versions.koin}"
-    implementation "org.koin:koin-androidx-scope:${versions.koin}"
-    implementation "org.koin:koin-androidx-viewmodel:${versions.koin}"
+    implementation "io.insert-koin:koin-android:${versions.koin}"
+    implementation "io.insert-koin:koin-androidx-scope:${versions.koin}"
+    implementation "io.insert-koin:koin-androidx-viewmodel:${versions.koin}"
 
     // Debug
     implementation "com.jakewharton.timber:timber:${versions.timber}"
-    debugImplementation "com.amitshekhar.android:debug-db:${versions.debugDb}"
+    debugImplementation "com.github.amitshekhariitbhu.Android-Debug-Database:debug-db:${versions.debugDb}"
 
     // Unit Testing
     testImplementation "junit:junit:${versions.junit}"

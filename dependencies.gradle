@@ -57,7 +57,7 @@ ext.versions = [
 
         // Debug
         timber            : "4.7.1",
-        debugDb           : "1.0.3",
+        debugDb           : "1.0.7",
 
         // Unit Testing
         junit             : "4.12",
