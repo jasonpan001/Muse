@@ -36,10 +36,12 @@ import com.naman14.timberx.ui.fragments.base.MediaItemFragment
 import com.naman14.timberx.ui.listeners.SortMenuListener
 import com.naman14.timberx.util.AutoClearedValue
 import org.koin.android.ext.android.inject
+import org.koin.core.qualifier.named
+
 
 class SongsFragment : MediaItemFragment() {
     private lateinit var songsAdapter: SongsAdapter
-    private val sortOrderPref by inject<Pref<SongSortOrder>>(name = PREF_SONG_SORT_ORDER)
+    private val sortOrderPref by inject<Pref<SongSortOrder>>(qualifier = named(PREF_SONG_SORT_ORDER))
 
     var binding by AutoClearedValue<LayoutRecyclerviewBinding>(this)
 
@@ -72,11 +74,11 @@ class SongsFragment : MediaItemFragment() {
         }
 
         mediaItemFragmentViewModel.mediaItems
-                .filter { it.isNotEmpty() }
-                .observe(this) { list ->
-                    @Suppress("UNCHECKED_CAST")
-                    songsAdapter.updateData(list as List<Song>)
-                }
+            .filter { it.isNotEmpty() }
+            .observe(viewLifecycleOwner) { list ->
+                @Suppress("UNCHECKED_CAST")
+                songsAdapter.updateData(list as List<Song>)
+            }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -47,13 +47,13 @@ import com.naman14.timberx.ui.widgets.BottomSheetListener
 import io.reactivex.functions.Consumer
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.qualifier.named
 
 class MainActivity : PermissionsActivity(), DeleteSongDialog.OnSongDeleted {
 
     private val viewModel by viewModel<MainViewModel>()
     private val songsRepository by inject<SongsRepository>()
-    private val appThemePref by inject<Pref<AppThemes>>(name = PREF_APP_THEME)
-
+    private val appThemePref by inject<Pref<AppThemes>>(qualifier = named(PREF_APP_THEME))
     private var binding: MainActivityBinding? = null
     private var bottomSheetListener: BottomSheetListener? = null
     private var bottomSheetBehavior: BottomSheetBehavior<View>? = null
@@ -134,10 +134,11 @@ class MainActivity : PermissionsActivity(), DeleteSongDialog.OnSongDeleted {
             handlePlaybackIntent(intent)
         }
 
-        viewModel.navigateToMediaItem
-                .map { it.getContentIfNotHandled() }
-                .filter { it != null }
-                .observe(this) { navigateToMediaItem(it!!) }
+        viewModel.navigateToMediaItem.observe(this) { event ->
+            event.getContentIfNotHandled()?.let {
+                navigateToMediaItem(it)
+            }
+        }
 
         binding?.let {
             it.viewModel = viewModel

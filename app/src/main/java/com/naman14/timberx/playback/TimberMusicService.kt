@@ -60,7 +60,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.koin.android.ext.android.get
 import org.koin.android.ext.android.inject
-import org.koin.standalone.KoinComponent
+import org.koin.core.component.KoinComponent
 import timber.log.Timber.d as log
 
 // TODO pull out media logic to separate class to make this more readable
@@ -98,9 +98,9 @@ class TimberMusicService : MediaBrowserServiceCompat(), KoinComponent, Lifecycle
     private val permissionsManager by inject<PermissionsManager>()
 
     private lateinit var becomingNoisyReceiver: BecomingNoisyReceiver
-    private val lifecycle = LifecycleRegistry(this)
+    override val lifecycle = LifecycleRegistry(this)
 
-    override fun getLifecycle() = lifecycle
+//    override fun getLifecycle() = lifecycle
 
     override fun onCreate() {
         super.onCreate()

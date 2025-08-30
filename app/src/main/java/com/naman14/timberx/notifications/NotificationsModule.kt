@@ -18,15 +18,12 @@ import android.app.Application
 import android.app.NotificationManager
 import android.content.Context
 import com.naman14.timberx.extensions.systemService
-import org.koin.dsl.module.module
+import org.koin.dsl.module
+import org.koin.dsl.bind
 
 val notificationModule = module {
-
-    factory<NotificationManager> {
-        get<Application>().systemService(Context.NOTIFICATION_SERVICE)
+    factory {
+        get<Application>().getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
     }
-
-    single {
-        RealNotifications(get(), get())
-    } bind Notifications::class
+    single { RealNotifications(get(), get()) } bind Notifications::class
 }

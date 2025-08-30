@@ -47,10 +47,13 @@ import com.naman14.timberx.ui.dialogs.AboutDialog
 import com.naman14.timberx.ui.fragments.base.MediaItemFragment
 import com.naman14.timberx.util.AutoClearedValue
 import org.koin.android.ext.android.inject
+import org.koin.core.qualifier.named
+
 
 class MainFragment : Fragment() {
     var binding by AutoClearedValue<MainFragmentBinding>(this)
-    private val startPagePref by inject<Pref<StartPage>>(name = PREF_START_PAGE)
+
+    private val startPagePref by inject<Pref<StartPage>>(qualifier = named(PREF_START_PAGE))
 
     override fun onCreateView(
         inflater: LayoutInflater,

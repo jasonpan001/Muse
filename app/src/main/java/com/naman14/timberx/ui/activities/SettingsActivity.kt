@@ -29,11 +29,12 @@ import com.naman14.timberx.ui.activities.base.PermissionsActivity
 import com.naman14.timberx.ui.fragments.SettingsFragment
 import org.koin.android.ext.android.inject
 import kotlin.properties.Delegates.notNull
+import org.koin.core.qualifier.named
+
 
 class SettingsActivity : PermissionsActivity() {
     private var themeRes by notNull<Int>()
-    private val appThemePref by inject<Pref<AppThemes>>(name = PREF_APP_THEME)
-
+    private val appThemePref by inject<Pref<AppThemes>>(qualifier = named(PREF_APP_THEME))
     override fun onCreate(savedInstanceState: Bundle?) {
         themeRes = appThemePref.get().themeRes
         setTheme(themeRes)
