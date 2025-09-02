@@ -23,7 +23,10 @@ import androidx.recyclerview.widget.DividerItemDecoration.VERTICAL
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.naman14.timberx.R
 import com.naman14.timberx.databinding.FragmentPlaylistsBinding
-import com.naman14.timberx.extensions.*
+import com.naman14.timberx.extensions.inflateWithBinding
+import com.naman14.timberx.extensions.addOnItemClick
+import com.naman14.timberx.extensions.drawable
+import com.naman14.timberx.extensions.safeActivity
 import com.naman14.timberx.models.Playlist
 import com.naman14.timberx.ui.adapters.PlaylistAdapter
 import com.naman14.timberx.ui.dialogs.CreatePlaylistDialog

@@ -28,7 +28,11 @@ import com.naman14.timberx.constants.AlbumSortOrder.ALBUM_Z_A
 import com.naman14.timberx.constants.AlbumSortOrder.ALBUM_YEAR
 import com.naman14.timberx.constants.AlbumSortOrder.ALBUM_NUMBER_OF_SONGS
 import com.naman14.timberx.databinding.LayoutRecyclerviewPaddingBinding
-import com.naman14.timberx.extensions.*
+import com.naman14.timberx.extensions.inflateWithBinding
+import com.naman14.timberx.extensions.addOnItemClick
+import com.naman14.timberx.extensions.safeActivity
+import com.naman14.timberx.extensions.ioToMain
+import com.naman14.timberx.extensions.disposeOnDetach
 import com.naman14.timberx.models.Album
 import com.naman14.timberx.ui.adapters.AlbumAdapter
 import com.naman14.timberx.ui.fragments.base.MediaItemFragment

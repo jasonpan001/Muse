@@ -44,7 +44,8 @@ class TimberXApp : Application() {
         }
 
         val modules = listOf(
-            mainModule, // 确认 mainModule 已定义并导入
+            // 确认 mainModule 已定义并导入
+            mainModule,
             permissionsModule,
             mediaModule,
             prefsModule,

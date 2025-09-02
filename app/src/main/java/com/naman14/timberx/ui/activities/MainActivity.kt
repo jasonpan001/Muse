@@ -34,7 +34,12 @@ import com.naman14.timberx.PREF_APP_THEME
 import com.naman14.timberx.R
 import com.naman14.timberx.constants.AppThemes
 import com.naman14.timberx.databinding.MainActivityBinding
-import com.naman14.timberx.extensions.*
+import com.naman14.timberx.extensions.addFragment
+import com.naman14.timberx.extensions.attachLifecycle
+import com.naman14.timberx.extensions.hide
+import com.naman14.timberx.extensions.replaceFragment
+import com.naman14.timberx.extensions.setDataBindingContentView
+import com.naman14.timberx.extensions.show
 import com.naman14.timberx.models.MediaID
 import com.naman14.timberx.repository.SongsRepository
 import com.naman14.timberx.ui.activities.base.PermissionsActivity

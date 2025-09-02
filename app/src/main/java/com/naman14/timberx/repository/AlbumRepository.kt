@@ -26,7 +26,7 @@ import com.naman14.timberx.extensions.mapList
 import com.naman14.timberx.models.Album
 import com.naman14.timberx.models.MediaID
 import com.naman14.timberx.models.Song
-import java.util.*
+import java.util.ArrayList
 import android.provider.MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI as ALBUMS_URI
 import android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI as SONGS_URI
 
