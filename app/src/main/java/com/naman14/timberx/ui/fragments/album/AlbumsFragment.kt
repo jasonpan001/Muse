@@ -86,12 +86,12 @@ class AlbumsFragment : MediaItemFragment() {
             addItemDecoration(SpacesItemDecoration(spacingInPixels))
         }
 
-        mediaItemFragmentViewModel.mediaItems
-                .filter { it.isNotEmpty() }
-                .observe(viewLifecycleOwner) { list ->
-                    @Suppress("UNCHECKED_CAST")
-                    albumAdapter.updateData(list as List<Album>)
-                }
+        mediaItemFragmentViewModel.mediaItems.observe(viewLifecycleOwner) { list ->
+            if (list.isNotEmpty()) {
+                @Suppress("UNCHECKED_CAST")
+                albumAdapter.updateData(list as List<Album>)
+            }
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

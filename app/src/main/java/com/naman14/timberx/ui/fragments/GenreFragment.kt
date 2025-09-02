@@ -62,11 +62,11 @@ class GenreFragment : MediaItemFragment() {
             }
         }
 
-        mediaItemFragmentViewModel.mediaItems
-                .filter { it.isNotEmpty() }
-                .observe(this) { list ->
-                    @Suppress("UNCHECKED_CAST")
-                    genreAdapter.updateData(list as List<Genre>)
-                }
+        mediaItemFragmentViewModel.mediaItems.observe(this) { list ->
+            if (list.isNotEmpty()) {
+                @Suppress("UNCHECKED_CAST")
+                genreAdapter.updateData(list as List<Genre>)
+            }
+        }
     }
 }

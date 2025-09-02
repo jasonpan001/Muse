@@ -52,9 +52,9 @@ data class CastStatus(
         }
 
         remoteMediaClient.currentItem?.media?.metadata?.let {
-            castSongTitle = it.getString(KEY_TITLE)
-            castSongArtist = it.getString(KEY_ARTIST)
-            castSongAlbum = it.getString(KEY_ALBUM_TITLE)
+            castSongTitle = it.getString(KEY_TITLE) ?: ""
+            castSongArtist = it.getString(KEY_ARTIST) ?: ""
+            castSongAlbum = it.getString(KEY_ALBUM_TITLE) ?: ""
             castSongId = it.getInt(CAST_MUSIC_METADATA_ID)
             castAlbumId = it.getInt(CAST_MUSIC_METADATA_ALBUM_ID)
         }

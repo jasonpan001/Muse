@@ -34,6 +34,7 @@ import com.naman14.timberx.extensions.addOnItemClick
 import com.naman14.timberx.extensions.ioToMain
 import com.naman14.timberx.extensions.disposeOnDetach
 import com.naman14.timberx.extensions.toSongIds
+import com.naman14.timberx.extensions.getExtraBundle
 import com.naman14.timberx.extensions.safeActivity
 import com.naman14.timberx.models.Song
 import com.naman14.timberx.ui.adapters.SongsAdapter
@@ -78,12 +79,12 @@ class SongsFragment : MediaItemFragment() {
             }
         }
 
-        mediaItemFragmentViewModel.mediaItems
-            .filter { it.isNotEmpty() }
-            .observe(viewLifecycleOwner) { list ->
+        mediaItemFragmentViewModel.mediaItems.observe(viewLifecycleOwner) { list ->
+            if (list.isNotEmpty()) {
                 @Suppress("UNCHECKED_CAST")
                 songsAdapter.updateData(list as List<Song>)
             }
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

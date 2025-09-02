@@ -182,18 +182,20 @@ class TimberMusicService : MediaBrowserServiceCompat(), KoinComponent, Lifecycle
     override fun onLoadChildren(parentId: String, result: Result<List<MediaBrowserCompat.MediaItem>>) {
         result.detach()
 
-        // Wait to load media item children until we have the storage permission, this prevents crashes
-        // and allows us to automatically finish loading once the permission is granted by the user.
-        permissionsManager.requestStoragePermission(waitForGranted = true)
-                .subscribe(Consumer {
-                    GlobalScope.launch(Main) {
-                        val mediaItems = withContext(IO) {
-                            loadChildren(parentId)
-                        }
-                        result.sendResult(mediaItems)
-                    }
-                })
-                .attachLifecycle(this)
+        // Check if we have storage permission before loading media
+        if (permissionsManager.hasStoragePermission()) {
+            // We have permission, load the media items
+            GlobalScope.launch(Main) {
+                val mediaItems = withContext(IO) {
+                    loadChildren(parentId)
+                }
+                result.sendResult(mediaItems)
+            }
+        } else {
+            // No permission, return empty list
+            // The app should request permission from an Activity context
+            result.sendResult(emptyList())
+        }
     }
 
     @Nullable

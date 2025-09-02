@@ -14,7 +14,8 @@
  */
 package com.naman14.timberx.db
 
-
+import android.app.Application
+import androidx.room.Room
 import org.koin.dsl.module
 import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.bind

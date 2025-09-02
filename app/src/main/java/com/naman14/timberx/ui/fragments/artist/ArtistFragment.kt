@@ -59,11 +59,11 @@ class ArtistFragment : MediaItemFragment() {
             addItemDecoration(SpacesItemDecoration(spacingInPixels))
         }
 
-        mediaItemFragmentViewModel.mediaItems
-                .filter { it.isNotEmpty() }
-                .observe(this) { list ->
-                    @Suppress("UNCHECKED_CAST")
-                    artistAdapter.updateData(list as List<Artist>)
-                }
+        mediaItemFragmentViewModel.mediaItems.observe(this) { list ->
+            if (list.isNotEmpty()) {
+                @Suppress("UNCHECKED_CAST")
+                artistAdapter.updateData(list as List<Artist>)
+            }
+        }
     }
 }

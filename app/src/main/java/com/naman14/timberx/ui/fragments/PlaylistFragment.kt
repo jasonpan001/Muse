@@ -61,12 +61,12 @@ class PlaylistFragment : MediaItemFragment(), CreatePlaylistDialog.PlaylistCreat
             }
         }
 
-        mediaItemFragmentViewModel.mediaItems
-                .filter { it.isNotEmpty() }
-                .observe(this) { list ->
-                    @Suppress("UNCHECKED_CAST")
-                    playlistAdapter.updateData(list as List<Playlist>)
-                }
+        mediaItemFragmentViewModel.mediaItems.observe(this) { list ->
+            if (list.isNotEmpty()) {
+                @Suppress("UNCHECKED_CAST")
+                playlistAdapter.updateData(list as List<Playlist>)
+            }
+        }
 
         binding.btnNewPlaylist.setOnClickListener {
             CreatePlaylistDialog.show(this@PlaylistFragment)

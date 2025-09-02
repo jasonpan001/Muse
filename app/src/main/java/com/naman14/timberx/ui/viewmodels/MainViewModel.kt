@@ -80,7 +80,7 @@ class MainViewModel(
     private val playlistsRepository: PlaylistRepository
 ) : ViewModel() {
 
-    val rootMediaId: LiveData<MediaID> =
+    val rootMediaId: LiveData<MediaID?> =
             mediaSessionConnection.isConnected.map { isConnected ->
                 if (isConnected) {
                     MediaID().fromString(mediaSessionConnection.rootMediaId)
@@ -89,7 +89,7 @@ class MainViewModel(
                 }
             }
 
-    val mediaController: LiveData<MediaControllerCompat> =
+    val mediaController: LiveData<MediaControllerCompat?> =
             mediaSessionConnection.isConnected.map { isConnected ->
                 if (isConnected) {
                     mediaSessionConnection.mediaController
@@ -130,7 +130,7 @@ class MainViewModel(
             val songID = MediaID().fromString(mediaItem.mediaId!!).mediaId!!.toLong()
             castLiveData.value?.let {
                 if (it.state != STATUS_NONE && it.castSongId != -1 && it.castSongId.toLong() == songID) {
-                    castSession.remoteMediaClient.togglePlayback()
+                    castSession.remoteMediaClient?.togglePlayback()
                     return
                 }
             }
@@ -229,7 +229,7 @@ class MainViewModel(
         override fun onStatusUpdated() {
             super.onStatusUpdated()
             castSession?.let {
-                _castLiveData.postValue(CastStatus().fromRemoteMediaClient(it.castDevice.friendlyName,
+                _castLiveData.postValue(CastStatus().fromRemoteMediaClient(it.castDevice?.friendlyName ?: "",
                         it.remoteMediaClient))
             }
         }
@@ -245,17 +245,17 @@ class MainViewModel(
         if (isPlayServiceAvailable) {
             log("setupCastButton()")
             this.mediaRouteButton = mediaRouteButton
-            val selector = MediaRouteSelector.fromBundle(MediaRouteSelector.Builder().apply {
+            val selector = MediaRouteSelector.Builder().apply {
                 addControlCategory(CATEGORY_REMOTE_PLAYBACK)
                 addControlCategory(CATEGORY_LIVE_AUDIO)
-            }.build().asBundle())
+            }.build()
 
             MediaRouter.getInstance(context).apply {
                 addCallback(selector, object : MediaRouter.Callback() {
-                    override fun onRouteChanged(router: MediaRouter?, route: MediaRouter.RouteInfo?) {
-                        super.onRouteChanged(router, route)
-                        mediaRouteButton.show()
-                        mediaRouteButton.routeSelector = selector
+                    override fun onRouteAdded(router: MediaRouter, route: MediaRouter.RouteInfo) {
+                        super.onRouteAdded(router, route)
+                        mediaRouteButton?.show()
+                        mediaRouteButton?.routeSelector = selector
                     }
                 }, CALLBACK_FLAG_REQUEST_DISCOVERY)
             }
@@ -276,9 +276,9 @@ class MainViewModel(
                 val castContext = CastContext.getSharedInstance(context.applicationContext)
                 sessionManager = castContext.sessionManager
                 if (castSession == null) {
-                    castSession = sessionManager?.currentCastSession.also {
-                        it?.remoteMediaClient?.registerCallback(castCallback)
-                        it?.remoteMediaClient?.addProgressListener(castProgressListener, 100)
+                    castSession = sessionManager?.currentCastSession?.also {
+                        it.remoteMediaClient?.registerCallback(castCallback)
+                        it.remoteMediaClient?.addProgressListener(castProgressListener, 100)
                     }
                     sessionManager?.addSessionManagerListener(sessionManagerListener)
                 } else {
@@ -303,49 +303,49 @@ class MainViewModel(
     }
 
     private val sessionManagerListener = object : SessionManagerListener<Session> {
-        override fun onSessionEnded(p0: Session?, p1: Int) {
-            log("onSessionEnded()")
-            _customAction.postValue(Event(ACTION_CAST_DISCONNECTED))
-            pauseCastSession()
-            stopCastServer()
-        }
-
-        override fun onSessionEnding(p0: Session?) = Unit
-
-        override fun onSessionResumeFailed(p0: Session?, p1: Int) = Unit
-
-        override fun onSessionResumed(p0: Session?, p1: Boolean) {
-            log("onSessionResumed()")
-            _customAction.postValue(Event(ACTION_CAST_CONNECTED))
-            setupCastSession()
-            mediaRouteButton?.show()
-        }
-
-        override fun onSessionResuming(p0: Session?, p1: String?) {
-            log("onSessionResuming()")
-            startCastServer()
-        }
-
-        override fun onSessionStartFailed(p0: Session?, p1: Int) {
-            warn("onSessionStartFailed()")
-        }
-
-        override fun onSessionStarted(p0: Session?, p1: String?) {
+        override fun onSessionStarted(session: Session, sessionId: String) {
             log("onSessionStarted()")
             _customAction.postValue(Event(ACTION_CAST_CONNECTED))
             setupCastSession()
             mediaRouteButton?.show()
         }
 
-        override fun onSessionStarting(p0: Session?) {
+        override fun onSessionEnded(session: Session, error: Int) {
+            log("onSessionEnded()")
+            _customAction.postValue(Event(ACTION_CAST_DISCONNECTED))
+            pauseCastSession()
+            stopCastServer()
+        }
+
+        override fun onSessionStarting(session: Session) {
             log("onSessionStarting()")
             startCastServer()
         }
 
-        override fun onSessionSuspended(p0: Session?, p1: Int) {
+        override fun onSessionEnding(session: Session) = Unit
+
+        override fun onSessionResumed(session: Session, wasSuspended: Boolean) {
+            log("onSessionResumed()")
+            _customAction.postValue(Event(ACTION_CAST_CONNECTED))
+            setupCastSession()
+            mediaRouteButton?.show()
+        }
+
+        override fun onSessionResuming(session: Session, sessionId: String) {
+            log("onSessionResuming()")
+            startCastServer()
+        }
+
+        override fun onSessionSuspended(session: Session, reason: Int) {
             log("onSessionSuspended()")
             stopCastServer()
         }
+
+        override fun onSessionStartFailed(session: Session, error: Int) {
+            warn("onSessionStartFailed()")
+        }
+
+        override fun onSessionResumeFailed(session: Session, error: Int) = Unit
     }
 
     private fun startCastServer() {

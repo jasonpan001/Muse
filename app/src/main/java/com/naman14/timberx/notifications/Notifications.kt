@@ -21,8 +21,10 @@ import android.app.NotificationManager
 import android.app.NotificationManager.IMPORTANCE_LOW
 import android.app.PendingIntent
 import android.app.PendingIntent.FLAG_UPDATE_CURRENT
+import android.app.PendingIntent.FLAG_IMMUTABLE
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.support.v4.media.MediaMetadataCompat.METADATA_KEY_ALBUM
 import android.support.v4.media.MediaMetadataCompat.METADATA_KEY_ALBUM_ART
 import android.support.v4.media.MediaMetadataCompat.METADATA_KEY_ARTIST
@@ -33,7 +35,6 @@ import androidx.annotation.IdRes
 import androidx.core.app.NotificationCompat
 import androidx.core.graphics.toColorInt
 import androidx.media.session.MediaButtonReceiver.buildMediaButtonPendingIntent
-import androidx.palette.graphics.Palette
 import com.naman14.timberx.R
 import com.naman14.timberx.playback.TimberMusicService
 import com.naman14.timberx.constants.Constants.ACTION_NEXT
@@ -88,7 +89,7 @@ class RealNotifications(
         }
 
         val nowPlayingIntent = Intent(context, MainActivity::class.java)
-        val clickIntent = PendingIntent.getActivity(context, 0, nowPlayingIntent, FLAG_UPDATE_CURRENT)
+        val clickIntent = PendingIntent.getActivity(context, 0, nowPlayingIntent, FLAG_UPDATE_CURRENT or FLAG_IMMUTABLE)
 
         if (postTime == -1L) {
             postTime = currentTimeMillis()
@@ -120,9 +121,18 @@ class RealNotifications(
         }
 
         if (artwork != null) {
-            builder.color = Palette.from(artwork)
-                    .generate()
-                    .getVibrantColor("#403f4d".toColorInt())
+            try {
+                val paletteClass = Class.forName("androidx.palette.graphics.Palette")
+                val fromMethod = paletteClass.getMethod("from", android.graphics.Bitmap::class.java)
+                val palette = fromMethod.invoke(null, artwork)
+                val generateMethod = paletteClass.getMethod("generate")
+                val generatedPalette = generateMethod.invoke(palette)
+                val getVibrantColorMethod = paletteClass.getMethod("getVibrantColor", Int::class.java)
+                val color = getVibrantColorMethod.invoke(generatedPalette, "#403f4d".toColorInt()) as Int
+                builder.color = color
+            } catch (e: Exception) {
+                builder.color = "#403f4d".toColorInt()
+            }
         }
 
         return builder.build()
@@ -132,7 +142,7 @@ class RealNotifications(
         val actionIntent = Intent(context, TimberMusicService::class.java).apply {
             action = ACTION_PREVIOUS
         }
-        val pendingIntent = PendingIntent.getService(context, 0, actionIntent, 0)
+        val pendingIntent = PendingIntent.getService(context, 0, actionIntent, FLAG_IMMUTABLE)
         return NotificationCompat.Action(R.drawable.ic_previous, "", pendingIntent)
     }
 
@@ -140,7 +150,7 @@ class RealNotifications(
         val actionIntent = Intent(context, TimberMusicService::class.java).apply {
             action = ACTION_PLAY_PAUSE
         }
-        val pendingIntent = PendingIntent.getService(context, 0, actionIntent, 0)
+        val pendingIntent = PendingIntent.getService(context, 0, actionIntent, FLAG_IMMUTABLE)
         return NotificationCompat.Action(playButtonResId, "", pendingIntent)
     }
 
@@ -148,7 +158,7 @@ class RealNotifications(
         val actionIntent = Intent(context, TimberMusicService::class.java).apply {
             action = ACTION_NEXT
         }
-        val pendingIntent = PendingIntent.getService(context, 0, actionIntent, 0)
+        val pendingIntent = PendingIntent.getService(context, 0, actionIntent, FLAG_IMMUTABLE)
         return NotificationCompat.Action(R.drawable.ic_next, "", pendingIntent)
     }
 
