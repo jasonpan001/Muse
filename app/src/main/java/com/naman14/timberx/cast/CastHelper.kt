@@ -50,9 +50,9 @@ object CastHelper {
 
     fun castSong(castSession: CastSession, song: Song) {
         try {
-            val remoteMediaClient = castSession.remoteMediaClient
-            // TODO replace deprecated usage with correct usage
-            remoteMediaClient.load(song.toMediaInfo(), true, 0)
+            song.toMediaInfo()?.let { mediaInfo ->
+                castSession.remoteMediaClient?.load(mediaInfo, true, 0)
+            }
         } catch (e: Exception) {
             Timber.d(e, "castSong failed")
         }
@@ -60,15 +60,20 @@ object CastHelper {
 
     fun castSongQueue(castSession: CastSession, songs: List<Song>, currentPos: Int) {
         try {
-            val remoteMediaClient = castSession.remoteMediaClient
-            remoteMediaClient.queueLoad(songs.toQueueInfoList(), currentPos, MediaStatus.REPEAT_MODE_REPEAT_OFF, 0, null)
+            castSession.remoteMediaClient?.queueLoad(
+                songs.toQueueInfoList(),
+                currentPos,
+                MediaStatus.REPEAT_MODE_REPEAT_OFF,
+                0,
+                null
+            )
         } catch (e: Exception) {
             Timber.d(e, "castSongQueue failed")
         }
     }
 
     private fun List<Song>.toQueueInfoList(): Array<MediaQueueItem> {
-        return map { MediaQueueItem.Builder(it.toMediaInfo()).build() }.toTypedArray()
+        return mapNotNull { it.toMediaInfo()?.let { info -> MediaQueueItem.Builder(info).build() } }.toTypedArray()
     }
 
     private fun Song.toMediaInfo(): MediaInfo? {

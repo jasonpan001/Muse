@@ -60,7 +60,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.koin.android.ext.android.get
 import org.koin.android.ext.android.inject
-import org.koin.standalone.KoinComponent
+import org.koin.core.component.KoinComponent
 import timber.log.Timber.d as log
 
 // TODO pull out media logic to separate class to make this more readable
@@ -98,9 +98,9 @@ class TimberMusicService : MediaBrowserServiceCompat(), KoinComponent, Lifecycle
     private val permissionsManager by inject<PermissionsManager>()
 
     private lateinit var becomingNoisyReceiver: BecomingNoisyReceiver
-    private val lifecycle = LifecycleRegistry(this)
+    override val lifecycle = LifecycleRegistry(this)
 
-    override fun getLifecycle() = lifecycle
+//    override fun getLifecycle() = lifecycle
 
     override fun onCreate() {
         super.onCreate()
@@ -182,18 +182,20 @@ class TimberMusicService : MediaBrowserServiceCompat(), KoinComponent, Lifecycle
     override fun onLoadChildren(parentId: String, result: Result<List<MediaBrowserCompat.MediaItem>>) {
         result.detach()
 
-        // Wait to load media item children until we have the storage permission, this prevents crashes
-        // and allows us to automatically finish loading once the permission is granted by the user.
-        permissionsManager.requestStoragePermission(waitForGranted = true)
-                .subscribe(Consumer {
-                    GlobalScope.launch(Main) {
-                        val mediaItems = withContext(IO) {
-                            loadChildren(parentId)
-                        }
-                        result.sendResult(mediaItems)
-                    }
-                })
-                .attachLifecycle(this)
+        // Check if we have storage permission before loading media
+        if (permissionsManager.hasStoragePermission()) {
+            // We have permission, load the media items
+            GlobalScope.launch(Main) {
+                val mediaItems = withContext(IO) {
+                    loadChildren(parentId)
+                }
+                result.sendResult(mediaItems)
+            }
+        } else {
+            // No permission, return empty list
+            // The app should request permission from an Activity context
+            result.sendResult(emptyList())
+        }
     }
 
     @Nullable

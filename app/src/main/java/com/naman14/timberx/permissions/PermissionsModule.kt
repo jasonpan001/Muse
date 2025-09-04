@@ -14,12 +14,9 @@
  */
 package com.naman14.timberx.permissions
 
-import com.naman14.timberx.MAIN
-import org.koin.dsl.module.module
+import org.koin.dsl.module
+import org.koin.core.qualifier.named
 
 val permissionsModule = module {
-
-    single {
-        RealPermissionsManager(get(), get(name = MAIN))
-    } bind PermissionsManager::class
+    single<PermissionsManager> { RealPermissionsManager(get(), get(named("main"))) }
 }

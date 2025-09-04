@@ -23,7 +23,9 @@ import androidx.recyclerview.widget.DividerItemDecoration.VERTICAL
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.naman14.timberx.R
 import com.naman14.timberx.databinding.LayoutRecyclerviewPaddingBinding
-import com.naman14.timberx.extensions.*
+import com.naman14.timberx.extensions.inflateWithBinding
+import com.naman14.timberx.extensions.addOnItemClick
+import com.naman14.timberx.extensions.drawable
 import com.naman14.timberx.models.Genre
 import com.naman14.timberx.ui.adapters.GenreAdapter
 import com.naman14.timberx.ui.fragments.base.MediaItemFragment
@@ -60,11 +62,11 @@ class GenreFragment : MediaItemFragment() {
             }
         }
 
-        mediaItemFragmentViewModel.mediaItems
-                .filter { it.isNotEmpty() }
-                .observe(this) { list ->
-                    @Suppress("UNCHECKED_CAST")
-                    genreAdapter.updateData(list as List<Genre>)
-                }
+        mediaItemFragmentViewModel.mediaItems.observe(this) { list ->
+            if (list.isNotEmpty()) {
+                @Suppress("UNCHECKED_CAST")
+                genreAdapter.updateData(list as List<Genre>)
+            }
+        }
     }
 }

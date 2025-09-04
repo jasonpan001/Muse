@@ -16,20 +16,22 @@ package com.naman14.timberx.db
 
 import android.app.Application
 import androidx.room.Room
-import org.koin.dsl.module.module
+import org.koin.dsl.module
+import org.koin.core.module.dsl.factoryOf
+import org.koin.core.module.dsl.bind
+import org.koin.core.module.dsl.singleOf
 
 val roomModule = module {
-
     single {
         Room.databaseBuilder(get<Application>(), TimberDatabase::class.java, "queue.db")
-                .allowMainThreadQueries()
-                .fallbackToDestructiveMigration()
-                .build()
+            .allowMainThreadQueries()
+            .fallbackToDestructiveMigration()
+            .build()
     }
 
-    factory { get<TimberDatabase>().queueDao() }
+    factory<QueueDao> { get<TimberDatabase>().queueDao() }
 
-    factory {
-        RealQueueHelper(get(), get())
-    } bind QueueHelper::class
+    // 用 builder 写法
+    factoryOf(::RealQueueHelper) { bind<QueueHelper>() }
+    // 或者 singleOf(::RealQueueHelper) { bind<QueueHelper>() }
 }

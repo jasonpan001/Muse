@@ -155,7 +155,12 @@ class RealSongPlayer(
         setPlaybackState(stateBuilder.build())
 
         val sessionIntent = context.packageManager.getLaunchIntentForPackage(context.packageName)
-        val sessionActivityPendingIntent = PendingIntent.getActivity(context, 0, sessionIntent, 0)
+        val flags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+        } else {
+            PendingIntent.FLAG_UPDATE_CURRENT
+        }
+        val sessionActivityPendingIntent = PendingIntent.getActivity(context, 0, sessionIntent, flags)
         setSessionActivity(sessionActivityPendingIntent)
         isActive = true
     }

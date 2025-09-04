@@ -34,7 +34,12 @@ import com.naman14.timberx.PREF_APP_THEME
 import com.naman14.timberx.R
 import com.naman14.timberx.constants.AppThemes
 import com.naman14.timberx.databinding.MainActivityBinding
-import com.naman14.timberx.extensions.*
+import com.naman14.timberx.extensions.addFragment
+import com.naman14.timberx.extensions.attachLifecycle
+import com.naman14.timberx.extensions.hide
+import com.naman14.timberx.extensions.replaceFragment
+import com.naman14.timberx.extensions.setDataBindingContentView
+import com.naman14.timberx.extensions.show
 import com.naman14.timberx.models.MediaID
 import com.naman14.timberx.repository.SongsRepository
 import com.naman14.timberx.ui.activities.base.PermissionsActivity
@@ -47,13 +52,13 @@ import com.naman14.timberx.ui.widgets.BottomSheetListener
 import io.reactivex.functions.Consumer
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.qualifier.named
 
 class MainActivity : PermissionsActivity(), DeleteSongDialog.OnSongDeleted {
 
     private val viewModel by viewModel<MainViewModel>()
     private val songsRepository by inject<SongsRepository>()
-    private val appThemePref by inject<Pref<AppThemes>>(name = PREF_APP_THEME)
-
+    private val appThemePref by inject<Pref<AppThemes>>(qualifier = named(PREF_APP_THEME))
     private var binding: MainActivityBinding? = null
     private var bottomSheetListener: BottomSheetListener? = null
     private var bottomSheetBehavior: BottomSheetBehavior<View>? = null
@@ -134,10 +139,11 @@ class MainActivity : PermissionsActivity(), DeleteSongDialog.OnSongDeleted {
             handlePlaybackIntent(intent)
         }
 
-        viewModel.navigateToMediaItem
-                .map { it.getContentIfNotHandled() }
-                .filter { it != null }
-                .observe(this) { navigateToMediaItem(it!!) }
+        viewModel.navigateToMediaItem.observe(this) { event ->
+            event.getContentIfNotHandled()?.let {
+                navigateToMediaItem(it)
+            }
+        }
 
         binding?.let {
             it.viewModel = viewModel

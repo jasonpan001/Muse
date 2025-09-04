@@ -32,13 +32,16 @@ import com.naman14.timberx.ui.adapters.FolderAdapter
 import com.naman14.timberx.ui.fragments.base.MediaItemFragment
 import com.naman14.timberx.util.AutoClearedValue
 import org.koin.android.ext.android.inject
+import org.koin.core.qualifier.named
+
 
 class FolderFragment : MediaItemFragment() {
     private lateinit var folderAdapter: FolderAdapter
 
     private val songsRepository by inject<SongsRepository>()
     private val foldersRepository by inject<FoldersRepository>()
-    private val lastFolderPref by inject<Pref<String>>(name = PREF_LAST_FOLDER)
+
+    private val lastFolderPref by inject<Pref<String>>(qualifier = named(PREF_LAST_FOLDER))
 
     var binding by AutoClearedValue<LayoutRecyclerviewPaddingBinding>(this)
 

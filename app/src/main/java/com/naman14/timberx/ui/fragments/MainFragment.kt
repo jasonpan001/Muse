@@ -39,7 +39,10 @@ import com.naman14.timberx.playback.TimberMusicService.Companion.TYPE_ALL_PLAYLI
 import com.naman14.timberx.playback.TimberMusicService.Companion.TYPE_ALL_SONGS
 import com.naman14.timberx.constants.StartPage
 import com.naman14.timberx.databinding.MainFragmentBinding
-import com.naman14.timberx.extensions.*
+import com.naman14.timberx.extensions.inflateWithBinding
+import com.naman14.timberx.extensions.drawable
+import com.naman14.timberx.extensions.addFragment
+import com.naman14.timberx.extensions.safeActivity
 import com.naman14.timberx.models.MediaID
 import com.naman14.timberx.ui.activities.MainActivity
 import com.naman14.timberx.ui.activities.SettingsActivity
@@ -47,10 +50,13 @@ import com.naman14.timberx.ui.dialogs.AboutDialog
 import com.naman14.timberx.ui.fragments.base.MediaItemFragment
 import com.naman14.timberx.util.AutoClearedValue
 import org.koin.android.ext.android.inject
+import org.koin.core.qualifier.named
+
 
 class MainFragment : Fragment() {
     var binding by AutoClearedValue<MainFragmentBinding>(this)
-    private val startPagePref by inject<Pref<StartPage>>(name = PREF_START_PAGE)
+
+    private val startPagePref by inject<Pref<StartPage>>(qualifier = named(PREF_START_PAGE))
 
     override fun onCreateView(
         inflater: LayoutInflater,

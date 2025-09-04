@@ -1,28 +1,55 @@
-[![Build Status](https://travis-ci.org/naman14/TimberX.svg?branch=master)](https://travis-ci.org/naman14/TimberX)
+# Muse (TimberX Android 15 Fork)
 
-# TimberX
-Fully featured Material theme music player that works all form factors and uses latest tools
+A modern Material Design music player updated for Android 15, forked from [TimberX](https://github.com/naman14/TimberX).
 
-<a href='https://play.google.com/store/apps/details?id=com.naman14.timberx&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' height=90px/></a>
+## 🎵 About
 
-Alternately, Download from Github [releases](https://github.com/naman14/TimberX/releases)
-* * *
-TimberX is built with latest development tools and design patterns.
-- Written in Kotlin
-- Android Architecture Components (Viewmodels, Livedata, Room)
-- Databinding
-- Dependency injection with KOIN
+This is a fork of TimberX that has been updated to support **Android 15 (API 35)** with modern development practices and dependencies. The original TimberX is a fully-featured Material theme music player that works across all form factors.
 
-TimberX works across all devices including
-- Phones
-- Android Wear
-- Android Auto
-- Chromecast and other cast devices
-- Google Assistant
+## ✨ Features
 
-If you are looking for more UI customisability, instead checkout out [Timber](https://github.com/naman14/Timber).
+Muse retains all the original TimberX features:
+- **Cross-platform support**: Phones, Android Wear, Android Auto, Chromecast, and Google Assistant
+- **Modern architecture**: Built with latest Android development tools
+- **Material Design**: Clean, intuitive user interface
+- **Voice control**: Works with Google Assistant voice commands
 
-# Phones
+## 📱 Device Support
+
+- **Phones**: Full-featured music player experience
+- **Android Wear**: Browse music library and playback controls
+- **Android Auto**: In-car music experience
+- **Chromecast**: Cast individual songs or entire queues
+- **Google Assistant**: Voice commands support
+
+## 🛠️ Technical Details
+
+### Updated for Android 15
+- **Target SDK**: 35 (Android 15)
+- **Minimum SDK**: 21 (Android 5.0)
+- **Kotlin**: 2.0.20
+- **Jetpack Compose**: Modern UI toolkit integration
+
+### Architecture & Libraries
+- Written in **Kotlin**
+- **Android Architecture Components** (ViewModels, LiveData, Room)
+- **Data Binding** and **View Binding**
+- **Dependency Injection** with KOIN
+- **Jetpack Compose** for modern UI components
+- **Coroutines** for asynchronous programming
+- **RxJava** for reactive programming
+
+## 🚀 What's New in This Fork
+
+- **Android 15 Support**: Updated to target Android 15 (API 35)
+- **Modern Dependencies**: Updated all libraries to latest stable versions
+- **Jetpack Compose Integration**: Added modern UI components
+- **Enhanced Performance**: Optimized for latest Android features
+- **Security Updates**: Updated to address modern security requirements
+
+## 📸 Screenshots
+
+### Phones
 
 <p float="left">
   <img src="https://raw.githubusercontent.com/naman14/TimberX/master/art/phone1.png" width="170" />
@@ -31,50 +58,85 @@ If you are looking for more UI customisability, instead checkout out [Timber](ht
   <img src="https://raw.githubusercontent.com/naman14/TimberX/master/art/phone3.png" width="170" />
 </p>
 
-## Cast
-
-Cast individual songs or load a queue
+### Cast Support
+Cast individual songs or load entire queues to Chromecast devices.
 
 <p float="left">
   <img src="https://raw.githubusercontent.com/naman14/TimberX/master/art/cast1.jpg" width="170" />
   <img src="https://raw.githubusercontent.com/naman14/TimberX/master/art/cast2.jpg" width="170" /> 
 </p>
 
-## Android Wear
-
-Browsing music library from wear device and common playback controls are supported.
+### Android Wear
+Browse music library and control playback from your wearable device.
 
 <p float="left">
   <img src="https://raw.githubusercontent.com/naman14/TimberX/master/art/wear1.png" width="170" />
   <img src="https://raw.githubusercontent.com/naman14/TimberX/master/art/wear2.png" width="170" /> 
 </p>
 
-## Android Auto
+### Android Auto
+Full in-car experience with navigation and voice control.
 
 <p float="left">
- 
   <img src="https://raw.githubusercontent.com/naman14/TimberX/master/art/auto3.jpg" width="170" /> 
   <img src="https://raw.githubusercontent.com/naman14/TimberX/master/art/auto4.jpg" width="170" /> 
-  <br>
-  <br>
-  <br>
-   <img src="https://raw.githubusercontent.com/naman14/TimberX/master/art/auto1.png" width="170" />
+  <br><br>
+  <img src="https://raw.githubusercontent.com/naman14/TimberX/master/art/auto1.png" width="170" />
   <img src="https://raw.githubusercontent.com/naman14/TimberX/master/art/auto2.png" width="170" /> 
-
 </p>
 
-## Google Assistant
+## 🎙️ Google Assistant Integration
 
-TimberX works with Google Assistant. Common voice commands that work with assistant are 
+Muse works seamlessly with Google Assistant. Supported voice commands include:
 
- - play music on timber
- - play 'song name' on timber
- - play 
- - pause
- - next song
- - previous song
+- "Play music on timber"
+- "Play [song name] on timber"  
+- "Play"
+- "Pause"
+- "Next song"
+- "Previous song"
 
-## License
+## 🏗️ Building the Project
+
+### Prerequisites
+- Android Studio Arctic Fox or newer
+- JDK 8 or higher
+- Android SDK with API 35 (Android 15)
+
+### Build Instructions
+1. Clone this repository
+2. Open in Android Studio
+3. Sync project with Gradle files
+4. Build and run on device/emulator
+
+### Dependencies
+The project uses Gradle version catalogs for dependency management. Check `dependencies.gradle` for version information.
+
+## 🤝 Contributing
+
+This is a fork focused on Android 15 compatibility. For major feature additions, consider contributing to the original [TimberX](https://github.com/naman14/TimberX) project.
+
+### Issues & Suggestions
+- For original TimberX features: [TimberX Issues](https://github.com/naman14/TimberX/issues)
+- For Android 15 specific issues: Create issues in this repository
+
+## 📝 Changelog
+
+### v1.9 (Current)
+- Updated to Android 15 (API 35)
+- Updated Kotlin to 2.0.20
+- Added Jetpack Compose integration
+- Updated all dependencies to latest stable versions
+- Enhanced security and performance optimizations
+
+## 🙏 Credits
+
+- **Original Project**: [TimberX](https://github.com/naman14/TimberX) by [Naman Dwivedi](https://github.com/naman14)
+- **Android 15 Update**: This fork maintains compatibility with modern Android versions
+
+## 📄 License
+
+Based on the original TimberX project:
 
 >(c) 2019 Naman Dwivedi 
 
@@ -83,3 +145,7 @@ TimberX works with Google Assistant. Common voice commands that work with assist
 >This software is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. 
 
 >You should have received a copy of the GNU General Public License along with this app. If not, see <https://www.gnu.org/licenses/>.
+
+---
+
+**Fork maintained for Android 15 compatibility**

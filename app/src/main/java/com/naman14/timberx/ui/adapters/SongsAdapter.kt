@@ -21,19 +21,24 @@ import androidx.recyclerview.widget.RecyclerView
 import com.naman14.timberx.R
 import com.naman14.timberx.databinding.ItemSongsBinding
 import com.naman14.timberx.databinding.ItemSongsHeaderBinding
-import com.naman14.timberx.extensions.*
+import com.naman14.timberx.extensions.inflateWithBinding
+import com.naman14.timberx.extensions.show
+import com.naman14.timberx.extensions.hide
+import com.naman14.timberx.extensions.showOrHide
+import com.naman14.timberx.extensions.moveElement
 import com.naman14.timberx.models.Song
 import com.naman14.timberx.ui.listeners.PopupMenuListener
 import com.naman14.timberx.ui.listeners.SortMenuListener
 import com.naman14.timberx.ui.viewmodels.NowPlayingViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
 private const val PLAYLIST_ID_NOT_IN_PLAYLIST = -1L
 private const val TYPE_SONG_HEADER = 0
 private const val TYPE_SONG_ITEM = 1
 private const val INVALID_POSITION = -1
 
-class SongsAdapter(val lifecycleOwner: LifecycleOwner) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class SongsAdapter(val lifecycleOwner: LifecycleOwner) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), KoinComponent {
     var songs: List<Song> = emptyList()
     var showHeader = false
     var isQueue = false
@@ -43,7 +48,7 @@ class SongsAdapter(val lifecycleOwner: LifecycleOwner) : RecyclerView.Adapter<Re
 
     var playlistId: Long = PLAYLIST_ID_NOT_IN_PLAYLIST
 
-    private val nowPlayingViewModel by lifecycleOwner.viewModel<NowPlayingViewModel>()
+    private val nowPlayingViewModel: NowPlayingViewModel by inject()
     private var nowPlayingPosition = INVALID_POSITION
 
     init {

@@ -67,13 +67,13 @@ class RealMusicPlayer(internal val context: Application) : MusicPlayer,
         MediaPlayer.OnErrorListener,
         MediaPlayer.OnCompletionListener {
 
-    private var _player: MediaPlayer? = null
+    private var mediaPlayer: MediaPlayer? = null
     private val player: MediaPlayer
         get() {
-            if (_player == null) {
-                _player = createPlayer(this)
+            if (mediaPlayer == null) {
+                mediaPlayer = createPlayer(this)
             }
-            return _player ?: throw IllegalStateException("Impossible")
+            return mediaPlayer ?: throw IllegalStateException("Impossible")
         }
 
     private var didPrepare = false
@@ -144,7 +144,7 @@ class RealMusicPlayer(internal val context: Application) : MusicPlayer,
     override fun release() {
         Timber.d("release()")
         player.release()
-        _player = null
+        mediaPlayer = null
     }
 
     override fun onPrepared(prepared: OnPrepared<MusicPlayer>) {

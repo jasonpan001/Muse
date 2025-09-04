@@ -115,12 +115,12 @@ open class MediaItemFragment : BaseNowPlayingFragment() {
         mediaItemFragmentViewModel = getViewModel { parametersOf(mediaId) }
 
         mainViewModel.customAction
-                .map { it.getContentIfNotHandled() }
-                .observe(this) {
-                    when (it) {
-                        ACTION_SONG_DELETED -> mediaItemFragmentViewModel.reloadMediaItems()
-                        ACTION_REMOVED_FROM_PLAYLIST -> mediaItemFragmentViewModel.reloadMediaItems()
-                    }
+            .map { it.getContentIfNotHandled() }
+            .observe(this) { action: String? ->
+                when (action) {
+                    ACTION_SONG_DELETED -> mediaItemFragmentViewModel.reloadMediaItems()
+                    ACTION_REMOVED_FROM_PLAYLIST -> mediaItemFragmentViewModel.reloadMediaItems()
                 }
+            }
     }
 }

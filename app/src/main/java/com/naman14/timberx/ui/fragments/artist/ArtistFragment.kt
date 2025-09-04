@@ -21,7 +21,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import com.naman14.timberx.R
 import com.naman14.timberx.databinding.LayoutRecyclerviewPaddingBinding
-import com.naman14.timberx.extensions.*
+import com.naman14.timberx.extensions.inflateWithBinding
+import com.naman14.timberx.extensions.addOnItemClick
+import com.naman14.timberx.extensions.safeActivity
 import com.naman14.timberx.models.Artist
 import com.naman14.timberx.ui.adapters.ArtistAdapter
 import com.naman14.timberx.ui.fragments.base.MediaItemFragment
@@ -57,11 +59,11 @@ class ArtistFragment : MediaItemFragment() {
             addItemDecoration(SpacesItemDecoration(spacingInPixels))
         }
 
-        mediaItemFragmentViewModel.mediaItems
-                .filter { it.isNotEmpty() }
-                .observe(this) { list ->
-                    @Suppress("UNCHECKED_CAST")
-                    artistAdapter.updateData(list as List<Artist>)
-                }
+        mediaItemFragmentViewModel.mediaItems.observe(this) { list ->
+            if (list.isNotEmpty()) {
+                @Suppress("UNCHECKED_CAST")
+                artistAdapter.updateData(list as List<Artist>)
+            }
+        }
     }
 }

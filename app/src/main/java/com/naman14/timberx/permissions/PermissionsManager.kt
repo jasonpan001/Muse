@@ -19,7 +19,6 @@ import android.app.Activity
 import android.app.Application
 import android.content.pm.PackageManager.PERMISSION_GRANTED
 import androidx.annotation.VisibleForTesting
-import androidx.annotation.VisibleForTesting.PRIVATE
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.naman14.timberx.extensions.asString
@@ -60,11 +59,11 @@ class RealPermissionsManager(
 ) : PermissionsManager {
 
     companion object {
-        @VisibleForTesting(otherwise = PRIVATE)
+        @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
         const val REQUEST_CODE_STORAGE = 69
     }
 
-    @VisibleForTesting(otherwise = PRIVATE)
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     var activity: Activity? = null
     private val relay = PublishSubject.create<GrantResult>()
 

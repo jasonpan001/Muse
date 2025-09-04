@@ -17,7 +17,6 @@
 package com.naman14.timberx
 
 import android.app.Application
-import com.naman14.timberx.BuildConfig.DEBUG
 import com.naman14.timberx.db.roomModule
 import com.naman14.timberx.logging.FabricTree
 import com.naman14.timberx.network.lastFmModule
@@ -28,36 +27,39 @@ import com.naman14.timberx.permissions.permissionsModule
 import com.naman14.timberx.playback.mediaModule
 import com.naman14.timberx.repository.repositoriesModule
 import com.naman14.timberx.ui.viewmodels.viewModelsModule
-import org.koin.android.ext.android.startKoin
+import mainModule
+import org.koin.android.ext.koin.androidContext
+import org.koin.core.context.startKoin
 import timber.log.Timber
 
-class TimberXApp : Application() {
 
+class TimberXApp : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        if (DEBUG) {
+        if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
         } else {
             Timber.plant(FabricTree())
         }
 
         val modules = listOf(
-                mainModule,
-                permissionsModule,
-                mediaModule,
-                prefsModule,
-                networkModule,
-                roomModule,
-                notificationModule,
-                repositoriesModule,
-                viewModelsModule,
-                lyricsModule,
-                lastFmModule
+            // 确认 mainModule 已定义并导入
+            mainModule,
+            permissionsModule,
+            mediaModule,
+            prefsModule,
+            networkModule,
+            roomModule,
+            notificationModule,
+            repositoriesModule,
+            viewModelsModule,
+            lyricsModule,
+            lastFmModule
         )
-        startKoin(
-                androidContext = this,
-                modules = modules
-        )
+        startKoin {
+            androidContext(this@TimberXApp)
+            modules(modules)
+        }
     }
 }

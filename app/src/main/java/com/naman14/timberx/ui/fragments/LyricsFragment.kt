@@ -31,6 +31,7 @@ import com.naman14.timberx.network.Outcome
 import com.naman14.timberx.network.api.LyricsRestService
 import com.naman14.timberx.ui.fragments.base.BaseNowPlayingFragment
 import com.naman14.timberx.util.AutoClearedValue
+import timber.log.Timber
 import org.koin.android.ext.android.inject
 
 class LyricsFragment : BaseNowPlayingFragment() {
@@ -72,6 +73,12 @@ class LyricsFragment : BaseNowPlayingFragment() {
                 .subscribeForOutcome { outcome ->
                     when (outcome) {
                         is Outcome.Success -> binding.lyrics = outcome.data
+                        is Outcome.Failure -> {
+                            Timber.e(outcome.e, "Failed to fetch lyrics")
+                        }
+                        is Outcome.ApiError -> {
+                            Timber.e(outcome.e, "API error fetching lyrics")
+                        }
                     }
                 }
                 .disposeOnDetach(view)

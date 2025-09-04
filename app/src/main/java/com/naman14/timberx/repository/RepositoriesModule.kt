@@ -16,31 +16,15 @@ package com.naman14.timberx.repository
 
 import com.naman14.timberx.PREF_ALBUM_SORT_ORDER
 import com.naman14.timberx.PREF_SONG_SORT_ORDER
-import org.koin.dsl.module.module
+import org.koin.core.qualifier.named
+import org.koin.dsl.module
+import org.koin.core.module.dsl.bind
 
 val repositoriesModule = module {
-
-    factory {
-        RealSongsRepository(get(), get(name = PREF_SONG_SORT_ORDER))
-    } bind SongsRepository::class
-
-    factory {
-        RealAlbumRepository(get(), get(name = PREF_ALBUM_SORT_ORDER))
-    } bind AlbumRepository::class
-
-    factory {
-        RealArtistRepository(get())
-    } bind ArtistRepository::class
-
-    factory {
-        RealGenreRepository(get())
-    } bind GenreRepository::class
-
-    factory {
-        RealPlaylistRepository(get())
-    } bind PlaylistRepository::class
-
-    factory {
-        RealFoldersRepository()
-    } bind FoldersRepository::class
+    factory<SongsRepository> { RealSongsRepository(get(), get(qualifier = named(PREF_SONG_SORT_ORDER))) }
+    factory<AlbumRepository> { RealAlbumRepository(get(), get(qualifier = named(PREF_ALBUM_SORT_ORDER))) }
+    factory<ArtistRepository> { RealArtistRepository(get()) }
+    factory<GenreRepository> { RealGenreRepository(get()) }
+    factory<PlaylistRepository> { RealPlaylistRepository(get()) }
+    factory<FoldersRepository> { RealFoldersRepository() }
 }

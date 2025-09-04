@@ -28,7 +28,11 @@ import com.naman14.timberx.constants.AlbumSortOrder.ALBUM_Z_A
 import com.naman14.timberx.constants.AlbumSortOrder.ALBUM_YEAR
 import com.naman14.timberx.constants.AlbumSortOrder.ALBUM_NUMBER_OF_SONGS
 import com.naman14.timberx.databinding.LayoutRecyclerviewPaddingBinding
-import com.naman14.timberx.extensions.*
+import com.naman14.timberx.extensions.inflateWithBinding
+import com.naman14.timberx.extensions.addOnItemClick
+import com.naman14.timberx.extensions.safeActivity
+import com.naman14.timberx.extensions.ioToMain
+import com.naman14.timberx.extensions.disposeOnDetach
 import com.naman14.timberx.models.Album
 import com.naman14.timberx.ui.adapters.AlbumAdapter
 import com.naman14.timberx.ui.fragments.base.MediaItemFragment
@@ -36,10 +40,12 @@ import com.naman14.timberx.ui.listeners.SortMenuListener
 import com.naman14.timberx.util.AutoClearedValue
 import com.naman14.timberx.util.SpacesItemDecoration
 import org.koin.android.ext.android.inject
+import org.koin.core.qualifier.named
+
 
 class AlbumsFragment : MediaItemFragment() {
     private lateinit var albumAdapter: AlbumAdapter
-    private val sortOrderPref by inject<Pref<AlbumSortOrder>>(name = PREF_ALBUM_SORT_ORDER)
+    private val sortOrderPref by inject<Pref<AlbumSortOrder>>(qualifier = named(PREF_ALBUM_SORT_ORDER))
 
     var binding by AutoClearedValue<LayoutRecyclerviewPaddingBinding>(this)
 
@@ -80,12 +86,12 @@ class AlbumsFragment : MediaItemFragment() {
             addItemDecoration(SpacesItemDecoration(spacingInPixels))
         }
 
-        mediaItemFragmentViewModel.mediaItems
-                .filter { it.isNotEmpty() }
-                .observe(this) { list ->
-                    @Suppress("UNCHECKED_CAST")
-                    albumAdapter.updateData(list as List<Album>)
-                }
+        mediaItemFragmentViewModel.mediaItems.observe(viewLifecycleOwner) { list ->
+            if (list.isNotEmpty()) {
+                @Suppress("UNCHECKED_CAST")
+                albumAdapter.updateData(list as List<Album>)
+            }
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -29,17 +29,25 @@ import com.naman14.timberx.constants.SongSortOrder.SONG_DURATION
 import com.naman14.timberx.constants.SongSortOrder.SONG_YEAR
 import com.naman14.timberx.constants.SongSortOrder.SONG_Z_A
 import com.naman14.timberx.databinding.LayoutRecyclerviewBinding
-import com.naman14.timberx.extensions.*
+import com.naman14.timberx.extensions.inflateWithBinding
+import com.naman14.timberx.extensions.addOnItemClick
+import com.naman14.timberx.extensions.ioToMain
+import com.naman14.timberx.extensions.disposeOnDetach
+import com.naman14.timberx.extensions.toSongIds
+import com.naman14.timberx.extensions.getExtraBundle
+import com.naman14.timberx.extensions.safeActivity
 import com.naman14.timberx.models.Song
 import com.naman14.timberx.ui.adapters.SongsAdapter
 import com.naman14.timberx.ui.fragments.base.MediaItemFragment
 import com.naman14.timberx.ui.listeners.SortMenuListener
 import com.naman14.timberx.util.AutoClearedValue
 import org.koin.android.ext.android.inject
+import org.koin.core.qualifier.named
+
 
 class SongsFragment : MediaItemFragment() {
     private lateinit var songsAdapter: SongsAdapter
-    private val sortOrderPref by inject<Pref<SongSortOrder>>(name = PREF_SONG_SORT_ORDER)
+    private val sortOrderPref by inject<Pref<SongSortOrder>>(qualifier = named(PREF_SONG_SORT_ORDER))
 
     var binding by AutoClearedValue<LayoutRecyclerviewBinding>(this)
 
@@ -71,12 +79,12 @@ class SongsFragment : MediaItemFragment() {
             }
         }
 
-        mediaItemFragmentViewModel.mediaItems
-                .filter { it.isNotEmpty() }
-                .observe(this) { list ->
-                    @Suppress("UNCHECKED_CAST")
-                    songsAdapter.updateData(list as List<Song>)
-                }
+        mediaItemFragmentViewModel.mediaItems.observe(viewLifecycleOwner) { list ->
+            if (list.isNotEmpty()) {
+                @Suppress("UNCHECKED_CAST")
+                songsAdapter.updateData(list as List<Song>)
+            }
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
